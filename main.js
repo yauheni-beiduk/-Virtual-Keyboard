@@ -32,7 +32,7 @@ const Keyboard = {
         this.elements.main.appendChild(this.elements.keysContainer);
         document.body.appendChild(this.elements.main);
 
-        // Automatically use keyboard for elements with .use-keyboard-input
+        // Automatically use keyboard for elements with .inputs
         document.querySelectorAll(".inputs").forEach(element => {
             element.addEventListener("focus", () => {
                 this.open(element.value, currentValue => {
@@ -150,7 +150,6 @@ const Keyboard = {
 
     _toggleCapsLock() {
         this.properties.capsLock = !this.properties.capsLock;
-
         for (const key of this.elements.keys) {
             if (key.childElementCount === 0) {
                 key.textContent = this.properties.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
@@ -161,14 +160,12 @@ const Keyboard = {
     open(initialValue, oninput, onclose) {
         this.properties.value = initialValue || "";
         this.eventHandlers.oninput = oninput;
-        this.eventHandlers.onclose = onclose;
         this.elements.main.classList.remove("keyboard--hidden");
     },
 
     close() {
         this.properties.value = "";
-        this.eventHandlers.oninput = oninput;
-        this.eventHandlers.onclose = onclose;
+        this.eventHandlers.oninput = null;
         this.elements.main.classList.add("keyboard--hidden");
     }
 };
